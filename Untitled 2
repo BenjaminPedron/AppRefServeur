@@ -1,0 +1,5 @@
+Le Td consiste a charger des class sur un serveur (avec un while true dans l'app)
+on possede une classe de Service qui gere les service (menu de service en gros)
+on doit faire des verif sur une classe de Type Service pour respecter des normes
+
+(la fonction toStringue est à revoir : affichage -> "toto")
