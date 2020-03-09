@@ -27,7 +27,7 @@ public class ServeurBRi implements Runnable {
 		}
 		catch (IOException e) { 
 			try {this.listen_socket.close();} catch (IOException e1) {}
-			System.err.println("Pb sur le port d'écoute :"+e);
+			System.err.println("Pb sur le port d'Ã©coute :"+e);
 		}
 	}
 
