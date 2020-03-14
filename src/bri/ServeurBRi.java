@@ -37,6 +37,7 @@ public class ServeurBRi implements Runnable {
 				throw new Exception("Mot de passe non valide, doit contenir 8 lettre 1 MAJ 1 SPEC CHAR 1 MIN");
 		
 			Personne p = new Personne(id, pass, ftp);
+			System.out.println("Developer ajouté !");
 			return ServeurBRi.dev.add(p);
 		}
 	}

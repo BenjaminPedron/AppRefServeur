@@ -34,7 +34,7 @@ public class ServiceInscription implements Service {
 				ServeurBRi.addDev(id, pass, ftp);
 				out.println("succes");
 			} catch(Exception e) {
-				out.println(e.toString());
+				out.println(e);
 			}
 				
 		}
