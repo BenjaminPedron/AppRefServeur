@@ -37,4 +37,8 @@ public class ServiceInversion implements Service {
 	public static String toStringue() {
 		return "Inversion de texte";
 	}
+
+	public int getNumero() {
+		return this.numero;
+	}
 }

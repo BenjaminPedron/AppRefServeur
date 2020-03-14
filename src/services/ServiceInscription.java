@@ -2,8 +2,10 @@ package services;
 
 import java.net.Socket;
 import java.io.*;
-
 import bri.ServeurBRi;
+
+import personnes.*;
+import bri.ServiceDEV;
 import bri.Service;
 
 public class ServiceInscription implements Service {
@@ -20,6 +22,7 @@ public class ServiceInscription implements Service {
 
 	public void run() {
 		try {
+			System.out.println("Rentré dans ServiceInscription");
 			BufferedReader in = new BufferedReader (new InputStreamReader(client.getInputStream ( )));
 			PrintWriter out = new PrintWriter (client.getOutputStream ( ), true);
 
@@ -31,10 +34,11 @@ public class ServiceInscription implements Service {
 			String ftp = (String) in.readLine();
 
 			try {
-				ServeurBRi.addDev(id, pass, ftp);
-				out.println("succes");
+				Personne p = ServeurBRi.addDev(id, pass, ftp);
+				new ServiceDEV(client, p).run();
 			} catch(Exception e) {
-				out.println(e);
+				out.println("fail");
+				e.printStackTrace();
 			}
 				
 		}
@@ -50,4 +54,9 @@ public class ServiceInscription implements Service {
 	public static String toStringue() {
 		return "Inversion de texte";
 	}
+
+		// lancement du service
+		public void start() {
+			(new Thread(this)).start();		
+		}
 }

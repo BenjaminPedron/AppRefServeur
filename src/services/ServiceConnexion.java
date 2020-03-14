@@ -2,24 +2,22 @@ package services;
 
 import java.net.Socket;
 import java.io.*;
-
+import bri.ServiceDEV;
 import bri.ServeurBRi;
 import bri.Service;
+import personnes.*;
 
 public class ServiceConnexion implements Service {
-	
-	private static int cpt = 1;
-	
-	private final int numero;
+
 	private final Socket client;
 	
 	public ServiceConnexion(final Socket socket) {
-		this.numero = cpt ++;
 		this.client = socket;
 	}
 
 	public void run() {
 		try {
+			System.out.println("Rentré dans ServiceConnexion");
 			BufferedReader in = new BufferedReader (new InputStreamReader(client.getInputStream ( )));
 			PrintWriter out = new PrintWriter (client.getOutputStream ( ), true);
 
@@ -29,8 +27,8 @@ public class ServiceConnexion implements Service {
 			String pass = (String) in.readLine();
 
 			try {
-				ServeurBRi.getDev(id, pass);
-				out.println("succes");
+				Personne p = ServeurBRi.getDev(id, pass);
+				new ServiceDEV(client, p).run();
 			} catch(Exception e) {
 				out.println(e.toString());
 			}
@@ -38,7 +36,6 @@ public class ServiceConnexion implements Service {
 		}
 		catch (IOException e) {
 		}
-		//Fin du service d'inversion
 	}
 	
 	protected void finalize() throws Throwable {
@@ -46,6 +43,11 @@ public class ServiceConnexion implements Service {
 	}
 
 	public static String toStringue() {
-		return "Inversion de texte";
+		return "Connexion";
 	}
+
+		// lancement du service
+		public void start() {
+			(new Thread(this)).start();		
+		}
 }

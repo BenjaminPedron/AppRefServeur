@@ -10,7 +10,6 @@ public class Personne {
         this.id = id;
         this.pass = pass;
         this.ftp = ftp;
-
     }
 
     public String getId() {

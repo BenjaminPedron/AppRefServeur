@@ -26,6 +26,18 @@ public class ServiceRegistry {
 		System.out.println("size :" + servicesClasses.get(0).getSimpleName());
 	}
 
+	public static void deleteService(Class<? extends Service> classe, String classeName) throws Exception {
+		if (contains(classe))
+			servicesClasses.add(classe);
+		else
+			throw new Exception("Cette classe n'existe pas");
+	}
+
+	public static void majService(Class<? extends Service> classe, String classeName) throws Exception {
+		deleteService(classe, classeName);
+		addService(classe, classeName);
+	}
+
 	// renvoie la classe de service (numService -1)	
 	public static Class<? extends Service> getServiceClass(int numService) {
 		return servicesClasses.get(numService - 1);

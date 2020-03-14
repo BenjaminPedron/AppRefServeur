@@ -9,12 +9,12 @@ import java.util.regex.*;
 
 public class ServeurBRi implements Runnable {
 	private ServerSocket listen_socket;
-	public static Object block;
+	public static Object block = new Object();
 
 	private final static int PORT_AMAT = 3000;
 	private final static int PORT_DEV = 3001;
 
-	private static Vector<Personne> dev;
+	private static Vector<Personne> dev = new Vector<>();
 	
 	// Cree un serveur TCP - objet de la classe ServerSocket
 	public ServeurBRi(int port) {
@@ -25,20 +25,24 @@ public class ServeurBRi implements Runnable {
 		}
 	}
 
-	public static boolean addDev(String id, String pass, String ftp) throws Exception {
+	public static Personne addDev(String id, String pass, String ftp) throws Exception {
 		synchronized(block) {
 			String regexId = "[a-zA-Z0-9\\._\\-]{3,}"; 
-			String regexPass = "^(?=.*[0-9]).{8, }$";
+			//String regexPass = "^(?=.*[0-9]).{8, }$";
 
 			if(!Pattern.matches(regexId, id)) {
+				System.out.println("Login non valide");
 				throw new Exception("Login non valide");
 			}
-			if(!Pattern.matches(regexPass, pass))
-				throw new Exception("Mot de passe non valide, doit contenir 8 lettre 1 MAJ 1 SPEC CHAR 1 MIN");
+			//if(!Pattern.matches(regexPass, pass)) {
+				//System.out.println("Mdp non valide");
+				//throw new Exception("Mot de passe non valide, doit contenir 8 lettre 1 MAJ 1 SPEC CHAR 1 MIN");
+			//}
 		
 			Personne p = new Personne(id, pass, ftp);
 			System.out.println("Developer ajouté !");
-			return ServeurBRi.dev.add(p);
+			ServeurBRi.dev.add(p);
+			return p;
 		}
 	}
 
@@ -65,12 +69,11 @@ public class ServeurBRi implements Runnable {
 					case(PORT_DEV): new ServiceDEV(client).start();
 					break;
 				}
-				new ServiceBRi(listen_socket.accept()).start();
 			}
 		}
 		catch (IOException e) { 
 			try {this.listen_socket.close();} catch (IOException e1) {}
-			System.err.println("Pb sur le port d'écoute :"+e);
+			System.err.println("Pb sur le port d'écoute :" + e);
 		}
 	}
 
