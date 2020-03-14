@@ -2,7 +2,6 @@ package bri;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
-import java.util.List;
 import java.util.Vector;
 import java.lang.reflect.*;
 import java.net.Socket;
@@ -19,13 +18,13 @@ public class ServiceRegistry {
 
 // ajoute une classe de service après contrôle de la norme BLTi
 
-public static void addService(Class<? extends Service> classe, String classeName) throws Exception {
-	if (contains(classe))
-		throw new Exception("Vous ne pouvez ajoutez deux fois le même service");
-	if (normeBri(classe))
-		servicesClasses.add(classe);
-	System.out.println("size :" + servicesClasses.get(0).getSimpleName());
-}
+	public static void addService(Class<? extends Service> classe, String classeName) throws Exception {
+		if (contains(classe))
+			throw new Exception("Vous ne pouvez ajoutez deux fois le même service");
+		if (normeBri(classe))
+			servicesClasses.add(classe);
+		System.out.println("size :" + servicesClasses.get(0).getSimpleName());
+	}
 
 	// renvoie la classe de service (numService -1)	
 	public static Class<? extends Service> getServiceClass(int numService) {

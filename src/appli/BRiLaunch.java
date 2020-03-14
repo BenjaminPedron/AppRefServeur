@@ -1,19 +1,17 @@
 package appli;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Scanner;
-import java.net.Socket;
-import javax.tools.JavaCompiler;
 
 import bri.ServeurBRi;
 import bri.Service;
 import bri.ServiceRegistry;
-import services.ServiceInversion;
 
 public class BRiLaunch {
-	private final static int PORT_SERVICE = 3000;
+	
+	private final static int PORT_AMAT = 3000;
+	private final static int PORT_DEV = 3001;
 	
 	public static void main(String[] args) {
 		@SuppressWarnings("resource")
@@ -28,7 +26,8 @@ public class BRiLaunch {
 		System.out.println("Les clients se connectent au serveur 3000 pour lancer une activité");
 		System.out.println("Les developpers se connectent au serveur 3001 pour gérer une activité");
 		
-		new Thread(new ServeurBRi(PORT_SERVICE)).start();
+		new Thread(new ServeurBRi(PORT_AMAT)).start();
+		new Thread(new ServeurBRi(PORT_DEV)).start();
 		
 		while (true){
 				try {
