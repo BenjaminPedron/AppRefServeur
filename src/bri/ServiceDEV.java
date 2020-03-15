@@ -3,7 +3,9 @@ package bri;
 
 import java.io.*;
 import java.net.*;
-import services.*;
+
+import services.auth.*;
+import services.dev.*;
 import personnes.*;
 
 public class ServiceDEV implements Runnable {

@@ -1,4 +1,4 @@
-package services;
+package services.dev;
 
 import java.net.Socket;
 import java.net.URL;
@@ -10,12 +10,14 @@ import bri.ServiceDEV;
 import bri.ServiceRegistry;
 import personnes.Personne;
 
-public class ServiceDeleteService implements Service {
+public class ServiceAddService implements Service {
 	
+
     private final Socket client;
     private final Personne dev;
 	
-	public ServiceDeleteService(final Socket socket, Personne dev) {
+	public ServiceAddService(final Socket socket, Personne dev) {
+
         this.client = socket;
         this.dev = dev;
 	}
@@ -38,11 +40,11 @@ public class ServiceDeleteService implements Service {
                     /* Create a new URLClassLoader  */
                     URLClassLoader urlClassLoader = new URLClassLoader(classLoaderUrls);
                     
-                    
                     Class<? extends Service> servCl = (Class<? extends Service>) urlClassLoader.loadClass(dev.getId() + "/" +  classeName);
-                    ServiceRegistry.deleteService(servCl, classeName);
-					new ServiceDEV(client, dev).run();
-					urlClassLoader.close();
+                    ServiceRegistry.addService(servCl, classeName);
+                    new ServiceDEV(client, dev).run();
+                    urlClassLoader.close();
+
                 }
                 
             } catch (Exception e) {

@@ -1,7 +1,9 @@
-package services;
+package services.auth;
 
 import java.net.Socket;
 import java.io.*;
+
+import bri.ClientRegistry;
 import bri.ServeurBRi;
 
 import personnes.*;
@@ -10,13 +12,10 @@ import bri.Service;
 
 public class ServiceInscription implements Service {
 	
-	private static int cpt = 1;
-	
-	private final int numero;
+
 	private final Socket client;
 	
 	public ServiceInscription(final Socket socket) {
-		this.numero = cpt ++;
 		this.client = socket;
 	}
 
@@ -34,7 +33,7 @@ public class ServiceInscription implements Service {
 			String ftp = (String) in.readLine();
 
 			try {
-				Personne p = ServeurBRi.addDev(id, pass, ftp);
+				Personne p = ClientRegistry.addDev(id, pass, ftp);
 				new ServiceDEV(client, p).run();
 			} catch(Exception e) {
 				out.println("fail");

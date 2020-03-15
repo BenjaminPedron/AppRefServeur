@@ -3,6 +3,9 @@ package bri;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.Vector;
+
+import services.amat.ServiceInversion;
+
 import java.lang.reflect.*;
 import java.net.Socket;
 
@@ -28,7 +31,7 @@ public class ServiceRegistry {
 
 	public static void deleteService(Class<? extends Service> classe, String classeName) throws Exception {
 		if (contains(classe))
-			servicesClasses.add(classe);
+			servicesClasses.remove(classe);
 		else
 			throw new Exception("Cette classe n'existe pas");
 	}

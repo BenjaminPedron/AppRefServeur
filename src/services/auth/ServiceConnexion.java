@@ -1,8 +1,9 @@
-package services;
+package services.auth;
 
 import java.net.Socket;
 import java.io.*;
 import bri.ServiceDEV;
+import bri.ClientRegistry;
 import bri.ServeurBRi;
 import bri.Service;
 import personnes.*;
@@ -27,7 +28,7 @@ public class ServiceConnexion implements Service {
 			String pass = (String) in.readLine();
 
 			try {
-				Personne p = ServeurBRi.getDev(id, pass);
+				Personne p = ClientRegistry.getDev(id, pass);
 				new ServiceDEV(client, p).run();
 			} catch(Exception e) {
 				out.println(e.toString());

@@ -6,6 +6,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.*;
 
+import services.amat.ServiceInversion;
+
 
 class ServiceBRi implements Runnable {
 	
@@ -18,14 +20,19 @@ class ServiceBRi implements Runnable {
 	public void run() {
 		try {BufferedReader in = new BufferedReader (new InputStreamReader(client.getInputStream ( )));
 			PrintWriter out = new PrintWriter (client.getOutputStream ( ), true);
-			out.println(ServiceRegistry.toStringue()+" ##Tapez le numéro de service désiré :");
+			try {
+			ServiceRegistry.addService((Class<? extends Service>)ServiceInversion.class, ServiceInversion.class.getName());
+			}catch(Exception e) {
+				out.println("Probleme lors de l'enregistrement de service inversion");
+			}
+			out.println(ServiceRegistry.toStringue() + " ##Tapez le numï¿½ro de service dï¿½sirï¿½ :");
 			int choix = Integer.parseInt(in.readLine());
 			
-			// instancier le service numéro "choix" en lui passant la socket "client"
+			// instancier le service numï¿½ro "choix" en lui passant la socket "client"
 			Constructor<? extends Service> constr = ServiceRegistry.getServiceClass(choix).getConstructor(Socket.class);
 			
 			try {
-				// si on met un new Thread on passe directement dans le client close et ça retourne null
+				// si on met un new Thread on passe directement dans le client close et ï¿½a retourne null
 				// alors que en utilisant run() on reste dans la pile d'exec de ServiceBRI et on
 				// ne passe pas dans le close()
 				constr.newInstance(client).run();
