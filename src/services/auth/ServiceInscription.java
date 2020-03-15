@@ -4,15 +4,16 @@ import java.net.Socket;
 import java.io.*;
 
 import bri.ClientRegistry;
-import bri.ServeurBRi;
-
 import personnes.*;
 import bri.ServiceDEV;
 import bri.Service;
 
 public class ServiceInscription implements Service {
 	
-
+	/**
+	 * Inscrit une personne dev
+	 * @param socket Le socket du developpeur
+	 */
 	private final Socket client;
 	
 	public ServiceInscription(final Socket socket) {
@@ -43,19 +44,12 @@ public class ServiceInscription implements Service {
 		}
 		catch (IOException e) {
 		}
-		//Fin du service d'inversion
 	}
 	
 	protected void finalize() throws Throwable {
 		 client.close(); 
 	}
-
-	public static String toStringue() {
-		return "Inversion de texte";
+	public void start() {
+		(new Thread(this)).start();		
 	}
-
-		// lancement du service
-		public void start() {
-			(new Thread(this)).start();		
-		}
 }

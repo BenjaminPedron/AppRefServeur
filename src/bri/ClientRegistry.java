@@ -1,17 +1,13 @@
 package bri;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
 import java.util.Vector;
 import java.util.regex.Pattern;
-import java.lang.reflect.*;
-import java.net.Socket;
 import personnes.*;
 
 public class ClientRegistry {
-	// cette classe est un registre de services
-	// partag�e en concurrence par les clients et les "ajouteurs" de services,
-	// un Vector pour cette gestion est pratique
+	/**
+	 * Gestionnaire des personnes, uniquement utilisable par les developpeurs pour l'instant.
+	 */
 
 	static {
         block = new Object();
@@ -20,8 +16,13 @@ public class ClientRegistry {
     private static Vector<Personne> dev;
     private static Object block;
 
-// ajoute une classe de service après contrôle de la norme BLTi
 
+    /**
+	 * Ajoute un developpeur à la liste.
+	 * @param id L'identifiant de la personne.
+     * @param pass Mot de passe de la personne.
+     * @param ftp L'adresse ftp de la personne, le port 2121 sera utilisé par défaut.
+	 */
     public static Personne addDev(String id, String pass, String ftp) throws Exception {
         synchronized(block) {
             
@@ -33,6 +34,11 @@ public class ClientRegistry {
         }
     }
 
+    /**
+	 * Récupere un developpeur dans la liste.
+	 * @param id L'identifiant de la personne.
+     * @param pass Mot de passe de la personne.
+	 */
     public static Personne getDev(String id, String pass) throws Exception {
 		synchronized(block) {
 			for(Personne p : ClientRegistry.dev) {
@@ -43,6 +49,10 @@ public class ClientRegistry {
 	}
     }
     
+    /**
+	 * Vérifie les entrées utilisateur
+	 * @param p La personne vérifiée
+	 */
     public static boolean verify(Personne p) throws Exception {
         synchronized(block) {
             String regexId = "[a-zA-Z0-9\\._\\-]{3,}"; 

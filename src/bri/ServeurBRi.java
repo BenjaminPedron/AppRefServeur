@@ -4,13 +4,16 @@ import java.io.*;
 import java.net.*;
 
 public class ServeurBRi implements Runnable {
-	private ServerSocket listen_socket;
 
+	/**
+	 * Lance et serveur et se met en écoute
+	 * @param port Le port sur lequel est lancé l'application
+	 */
+
+	private ServerSocket listen_socket;
 	private final static int PORT_AMAT = 3000;
 	private final static int PORT_DEV = 3001;
 
-	
-	// Cree un serveur TCP - objet de la classe ServerSocket
 	public ServeurBRi(int port) {
 		try {
 			listen_socket = new ServerSocket(port);
@@ -20,9 +23,9 @@ public class ServeurBRi implements Runnable {
 	}
 
 
-	// Le serveur ecoute et accepte les connections.
-	// pour chaque connection, il cree un ServiceInversion, 
-	// qui va la traiter.
+	/**
+	 * Regarde le port du Socket, lance le service correspondant.
+	 */
 	public void run() {
 		try {
 			while(true) {
@@ -41,12 +44,10 @@ public class ServeurBRi implements Runnable {
 		}
 	}
 
-	 // restituer les ressources --> finalize
 	protected void finalize() throws Throwable {
 		try {this.listen_socket.close();} catch (IOException e1) {}
 	}
 
-	// lancement du serveur
 	public void lancer() {
 		(new Thread(this)).start();		
 	}

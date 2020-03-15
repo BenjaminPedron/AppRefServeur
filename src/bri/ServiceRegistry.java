@@ -3,23 +3,21 @@ package bri;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.Vector;
-
-import services.amat.ServiceInversion;
-
 import java.lang.reflect.*;
 import java.net.Socket;
 
 public class ServiceRegistry {
-	// cette classe est un registre de services
-	// partag�e en concurrence par les clients et les "ajouteurs" de services,
-	// un Vector pour cette gestion est pratique
+	/**
+	 * Gestionnaire de services
+	 * @param socket Le socket du developpeur
+	 * @param dev Le developpeur client
+	 */
 
 	static {
 		servicesClasses = new Vector<Class <? extends Service>>();
 	}
 	private static Vector<Class<? extends Service>> servicesClasses;
 
-// ajoute une classe de service après contrôle de la norme BLTi
 
 	public static void addService(Class<? extends Service> classe, String classeName) throws Exception {
 		synchronized(servicesClasses) {
@@ -51,12 +49,10 @@ public class ServiceRegistry {
 		}
 	}
 
-	// renvoie la classe de service (numService -1)	
 	public static Class<? extends Service> getServiceClass(int numService) {
 		return servicesClasses.get(numService - 1);
 	}
 
-	// liste les activit�s pr�sentes
 	public static String toStringue() {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < servicesClasses.size(); i++) {
@@ -67,8 +63,6 @@ public class ServiceRegistry {
 		return sb.toString();
 	}
 
-
-
 	private static boolean contains(Class<?> service) {
 		for (Class<? extends Service> class1 : servicesClasses) {
 			if (class1.getName().equals(service.getName()))
@@ -77,7 +71,6 @@ public class ServiceRegistry {
 		return false;
 	}
 
-	// NORME BRI
 	private static boolean normeBri(Class<?> service) throws Exception {
 		return implementsServiceInterface(service) && isPublic(service) && isNotAbstract(service)
 				&& hasPublicConstructorWithoutException(service) && hasSocketAttributeFinal(service)
@@ -91,14 +84,14 @@ public class ServiceRegistry {
 				return true;
 			}
 		}
-		throw new Exception("Implementes pas interface Service");
+		throw new Exception("N'implemente pas interface Service");
 	}
 
 	private static boolean isPublic(Class<?> classe) throws Exception {
 		if (Modifier.isPublic(classe.getClass().getModifiers())) {
 			return true;
 		} else {
-			throw new Exception("La classe n'est pas publique");
+			throw new Exception("La classe n'est pas public");
 		}
 	}
 

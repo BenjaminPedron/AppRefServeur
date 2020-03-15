@@ -11,6 +11,12 @@ import bri.ServiceRegistry;
 import personnes.Personne;
 
 public class ServiceAddService implements Service {
+
+  /**
+	 * Ajoute un service
+	 * @param socket Le socket du developpeur
+	 * @param dev Le developpeur client
+	 */
 	
 
     private final Socket client;
@@ -37,7 +43,6 @@ public class ServiceAddService implements Service {
                 else {
                     URL[] classLoaderUrls = new URL[]{new URL("ftp://" + dev.getFtp() + ":2121/" + dev.getId() + "/" )};
                     
-                    /* Create a new URLClassLoader  */
                     URLClassLoader urlClassLoader = new URLClassLoader(classLoaderUrls);
                     System.out.println( "ftp://" + dev.getFtp() + ":2121/" + dev.getId() + "/" +  classeName);
                     
@@ -55,18 +60,11 @@ public class ServiceAddService implements Service {
 		}
 		catch (IOException e) {
 		}
-		//Fin du service d'inversion
 	}
 	
 	protected void finalize() throws Throwable {
 		 client.close(); 
 	}
-
-	public static String toStringue() {
-		return "Connexion";
-    }
-    
-    	// lancement du service
 	public void start() {
 		(new Thread(this)).start();		
 	}

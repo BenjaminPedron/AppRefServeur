@@ -12,6 +12,10 @@ import personnes.Personne;
 
 public class ServiceMajService implements Service {
 
+	/**
+	 * Pas finalisé
+	 */
+
     private final Socket client;
     private final Personne dev;
 	
@@ -34,17 +38,16 @@ public class ServiceMajService implements Service {
                 } 
                 else {
                     URL[] classLoaderUrls = new URL[]{new URL("ftp://" + dev.getFtp() + ":2121/")};
-                    
-                    /* Create a new URLClassLoader  */
                     URLClassLoader urlClassLoader = new URLClassLoader(classLoaderUrls);
                     
-                    
-                    Class<? extends Service> servCl = (Class<? extends Service>) urlClassLoader.loadClass(dev.getId() + "/" +  classeName);
-                    ServiceRegistry.majService(servCl, classeName);
+					Class<? extends Service> servCl = (Class<? extends Service>) urlClassLoader.loadClass(dev.getId() + "/" +  classeName);
+					
+					ServiceRegistry.majService(servCl, classeName);
+					
 					new ServiceDEV(client, dev).run();
+					
 					urlClassLoader.close();
                 }
-                //}
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -52,18 +55,11 @@ public class ServiceMajService implements Service {
 		}
 		catch (IOException e) {
 		}
-		//Fin du service d'inversion
 	}
 	
 	protected void finalize() throws Throwable {
 		 client.close(); 
 	}
-
-	public static String toStringue() {
-		return "Connexion";
-    }
-    
-    	// lancement du service
 	public void start() {
 		(new Thread(this)).start();		
 	}

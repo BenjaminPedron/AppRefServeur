@@ -9,6 +9,13 @@ import services.dev.*;
 import personnes.*;
 
 public class ServiceDEV implements Runnable {
+
+		/**
+	 * Menu des developpeurs
+	 * @param client Le Socket client reçu par le serveur.
+	 * @param dev Le dev demandant le service si connecté, null sinon.
+	 */
+
 	
 	private Socket client;
 	private Personne dev;
@@ -58,7 +65,6 @@ public class ServiceDEV implements Runnable {
 			}
 
 		} catch (IOException | SecurityException e) {
-			//Fin du service
 		}
 
 		try {client.close();} catch (IOException e2) {}
@@ -67,8 +73,6 @@ public class ServiceDEV implements Runnable {
 	protected void finalize() throws Throwable {
 		 client.close(); 
 	}
-
-	// lancement du service
 	public void start() {
 		(new Thread(this)).start();		
 	}

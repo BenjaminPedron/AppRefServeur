@@ -2,13 +2,18 @@ package services.auth;
 
 import java.net.Socket;
 import java.io.*;
-import bri.ServiceDEV;
-import bri.ClientRegistry;
-import bri.ServeurBRi;
 import bri.Service;
+
+import bri.ClientRegistry;
+import bri.ServiceDEV;
 import personnes.*;
 
 public class ServiceConnexion implements Service {
+
+	/**
+	 * Connecte un dev
+	 * @param socket Le socket du developpeur
+	 */
 
 	private final Socket client;
 	
@@ -42,13 +47,7 @@ public class ServiceConnexion implements Service {
 	protected void finalize() throws Throwable {
 		 client.close(); 
 	}
-
-	public static String toStringue() {
-		return "Connexion";
+	public void start() {
+		(new Thread(this)).start();		
 	}
-
-		// lancement du service
-		public void start() {
-			(new Thread(this)).start();		
-		}
 }

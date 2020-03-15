@@ -1,7 +1,5 @@
 package services.dev;
 import java.net.Socket;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.io.*;
 
 import bri.Service;
@@ -10,6 +8,12 @@ import bri.ServiceRegistry;
 import personnes.Personne;
 
 public class ServiceDeleteService implements Service {
+
+	/**
+	 * Supprime un service
+	 * @param socket Le socket du developpeur
+	 * @param dev Le developpeur client
+	 */
 	
     private final Socket client;
     private final Personne dev;
@@ -44,18 +48,11 @@ public class ServiceDeleteService implements Service {
 		}
 		catch (IOException e) {
 		}
-		//Fin du service d'inversion
 	}
 	
 	protected void finalize() throws Throwable {
 		 client.close(); 
 	}
-
-	public static String toStringue() {
-		return "Connexion";
-    }
-    
-    	// lancement du service
 	public void start() {
 		(new Thread(this)).start();		
 	}
