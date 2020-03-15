@@ -22,23 +22,33 @@ public class ServiceRegistry {
 // ajoute une classe de service après contrôle de la norme BLTi
 
 	public static void addService(Class<? extends Service> classe, String classeName) throws Exception {
-		if (contains(classe))
-			throw new Exception("Vous ne pouvez ajoutez deux fois le même service");
-		if (normeBri(classe))
-			servicesClasses.add(classe);
-		System.out.println("size :" + servicesClasses.get(0).getSimpleName());
+		synchronized(servicesClasses) {
+			if (contains(classe))
+				throw new Exception("Vous ne pouvez ajoutez deux fois le même service");
+			if (normeBri(classe))
+				servicesClasses.add(classe);
+			System.out.println("size :" + servicesClasses.get(0).getSimpleName());
+		}
 	}
 
-	public static void deleteService(Class<? extends Service> classe, String classeName) throws Exception {
-		if (contains(classe))
-			servicesClasses.remove(classe);
-		else
-			throw new Exception("Cette classe n'existe pas");
+	public static void deleteService(String classeName) throws Exception {
+		synchronized(servicesClasses) {
+			Class<? extends Service> tmp = null;
+			for(Class<? extends Service> c : servicesClasses) {
+				if(c.getSimpleName().equals(classeName))
+					tmp = c;
+			}
+			if(tmp != null) {
+				servicesClasses.remove(tmp);
+			}
+		}
 	}
 
 	public static void majService(Class<? extends Service> classe, String classeName) throws Exception {
-		deleteService(classe, classeName);
-		addService(classe, classeName);
+		synchronized(servicesClasses) {
+			deleteService(classeName);
+			addService(classe, classeName);
+		}
 	}
 
 	// renvoie la classe de service (numService -1)	
@@ -62,8 +72,7 @@ public class ServiceRegistry {
 	private static boolean contains(Class<?> service) {
 		for (Class<? extends Service> class1 : servicesClasses) {
 			if (class1.getName().equals(service.getName()))
-				;
-			return true;
+				return true;
 		}
 		return false;
 	}

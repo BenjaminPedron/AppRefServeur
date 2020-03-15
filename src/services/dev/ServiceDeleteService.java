@@ -32,16 +32,9 @@ public class ServiceDeleteService implements Service {
                     new ServiceDEV(client, dev).run();
                 } 
                 else {
-                    URL[] classLoaderUrls = new URL[]{new URL("ftp://" + dev.getFtp() + ":2121/")};
-                    
-                    /* Create a new URLClassLoader  */
-                    URLClassLoader urlClassLoader = new URLClassLoader(classLoaderUrls);
-                    
-                    
-                    Class<? extends Service> servCl = (Class<? extends Service>) urlClassLoader.loadClass(dev.getId() + "/" +  classeName);
-                    ServiceRegistry.deleteService(servCl, classeName);
+
+                    ServiceRegistry.deleteService(classeName);
 					new ServiceDEV(client, dev).run();
-					urlClassLoader.close();
                 }
                 
             } catch (Exception e) {

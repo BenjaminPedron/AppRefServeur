@@ -35,12 +35,13 @@ public class ServiceAddService implements Service {
                     new ServiceDEV(client, dev).run();
                 } 
                 else {
-                    URL[] classLoaderUrls = new URL[]{new URL("ftp://" + dev.getFtp() + ":2121/")};
+                    URL[] classLoaderUrls = new URL[]{new URL("ftp://" + dev.getFtp() + ":2121/" + dev.getId() + "/" )};
                     
                     /* Create a new URLClassLoader  */
                     URLClassLoader urlClassLoader = new URLClassLoader(classLoaderUrls);
+                    System.out.println( "ftp://" + dev.getFtp() + ":2121/" + dev.getId() + "/" +  classeName);
                     
-                    Class<? extends Service> servCl = (Class<? extends Service>) urlClassLoader.loadClass(dev.getId() + "/" +  classeName);
+                    Class<? extends Service> servCl = (Class<? extends Service>) urlClassLoader.loadClass(classeName);
                     ServiceRegistry.addService(servCl, classeName);
                     new ServiceDEV(client, dev).run();
                     urlClassLoader.close();

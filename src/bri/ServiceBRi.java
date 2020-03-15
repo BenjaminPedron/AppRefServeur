@@ -6,9 +6,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.*;
 
-import services.amat.ServiceInversion;
-
-
 class ServiceBRi implements Runnable {
 	
 	private Socket client;
@@ -20,12 +17,7 @@ class ServiceBRi implements Runnable {
 	public void run() {
 		try {BufferedReader in = new BufferedReader (new InputStreamReader(client.getInputStream ( )));
 			PrintWriter out = new PrintWriter (client.getOutputStream ( ), true);
-			try {
-			ServiceRegistry.addService((Class<? extends Service>)ServiceInversion.class, ServiceInversion.class.getName());
-			}catch(Exception e) {
-				out.println("Probleme lors de l'enregistrement de service inversion");
-			}
-			out.println(ServiceRegistry.toStringue() + " ##Tapez le num�ro de service d�sir� :");
+			out.println(ServiceRegistry.toStringue() + " ##Tapez le numéro de service désiré :");
 			int choix = Integer.parseInt(in.readLine());
 			
 			// instancier le service num�ro "choix" en lui passant la socket "client"
